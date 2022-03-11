@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //rate of forward/backward movement
-    private float speed = 20.0f;
-    private float turnSpeed = 20.0f;
+    
+    public float speed = 20.0f;
+    public float turnSpeed = 20.0f;
+    private Rigidbody rb; 
+    
 
-    private float horizontalInput;
-    private float verticalInput;
+    public float horizontalInput;
+    public float verticalInput;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody> ();  
     }
-
+   
+ 
+        
+   
     // Update is called once per frame
     void Update()
     {
@@ -26,7 +31,9 @@ public class PlayerController : MonoBehaviour
         Debug.Log(Time.deltaTime);
 
         transform.Translate(Vector3.forward * Time.deltaTime * speed * verticalInput);
+        transform.Translate(Vector3.right * Time.deltaTime * turnSpeed * horizontalInput);
+         
         
-        transform.Rotate(Vector3.up, Time.deltaTime * turnSpeed * horizontalInput);
+        
     }
 }
