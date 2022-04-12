@@ -11,7 +11,7 @@ public class ArrayElement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("inst", 15f, 15f);
+        InvokeRepeating("inst", 5, 5);
     }
 
     // Update is called once per frame
@@ -23,12 +23,13 @@ public class ArrayElement : MonoBehaviour
     void inst()
     {
 
-        Instantiate(Fire_Hydrant[0], transform.position, Fire_Hydrant[Fire_HydrantIndex].transform.rotation);
+     Instantiate(Fire_Hydrant[0], transform.position, Fire_Hydrant[Fire_HydrantIndex].transform.rotation);
        
 
     }
+}
 
-    }
+   
 
 
 

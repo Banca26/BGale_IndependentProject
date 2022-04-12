@@ -7,8 +7,24 @@ public class PlayerController : MonoBehaviour
 
     public float speed = 20.0f;
     public float turnSpeed = 20.0f;
+    private PlayerController playerCtrl;
+
 
     private Rigidbody rbPlayer;
+    public float gravityModifer;
+    public float jumpForce;
+    private bool onGround = true;
+    public bool gameOver = false;
+
+
+    public ParticleSystem smokeSystem;
+
+
+    public AudioClip jumpSound;
+    public AudioClip crashSound;
+
+    private AudioSource asPlayer;
+    
     
 
     public float horizontalInput;
@@ -20,6 +36,11 @@ public class PlayerController : MonoBehaviour
     {
 
         rbPlayer = GetComponent<Rigidbody>();
+        Physics.gravity *= gravityModifer;
+
+        playerCtrl = GameObject.Find("Player").GetComponent<PlayerController>();
+
+        asPlayer = GetComponent<AudioSource>();
         
 
     }
@@ -28,27 +49,57 @@ public class PlayerController : MonoBehaviour
 
 
     // Update is called once per frame
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            onGround = true;
+        }
+        else if(collision.gameObject.CompareTag("Obstacles"))
+        {
+            Debug.Log("Game Over!");
+            gameOver = true;
+            smokeSystem.Play();
+            asPlayer.PlayOneShot(crashSound, 5.0f);
+        }
+        
+    }
+
+
+
     void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
         bool spaceDown = Input.GetKeyDown(KeyCode.Space);
-        if(spaceDown)
+        if (spaceDown && onGround && !gameOver)
         {
-            rbPlayer.AddForce(Vector3.up * 8, ForceMode.Impulse);
+            rbPlayer.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            onGround = false;
+            asPlayer.PlayOneShot(jumpSound, 3.0f);
+
         }
-
-
-        Debug.Log(Time.deltaTime);
-
-            transform.Translate(Vector3.forward * Time.deltaTime * speed * verticalInput);
-            transform.Translate(Vector3.right * Time.deltaTime * turnSpeed * horizontalInput);
-            
+        if (playerCtrl.gameOver == false)
+        
 
 
 
-            if (transform.position.x > 7)
+
+
+
+
+            Debug.Log(Time.deltaTime);
+
+        
+
+        transform.Translate(Vector3.forward * Time.deltaTime * speed * verticalInput);
+        transform.Translate(Vector3.right * Time.deltaTime * turnSpeed * horizontalInput);
+
+       
+
+        if (transform.position.x > 7)
             {
                 transform.position = new Vector3(7, transform.position.y, transform.position.z);
             }
@@ -67,10 +118,12 @@ public class PlayerController : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, transform.position.y, -48);
             }
 
-            
-            }
+       
 
-        }
+
+    }
+
+}
 
 
 
