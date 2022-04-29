@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Obstacles
   - doorPrefab
+  - PowerUp
+  - Enemy
   layers:
   - Default
   - TransparentFX

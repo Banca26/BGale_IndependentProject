@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public float speed = 20.0f;
     public float turnSpeed = 20.0f;
     private PlayerController playerCtrl;
+    public float powerUpSpeed = 10.0f;
+    public GameObject powerUpInd;
 
 
     private Rigidbody rbPlayer;
@@ -29,6 +31,8 @@ public class PlayerController : MonoBehaviour
 
     public float horizontalInput;
     public float verticalInput;
+
+    bool hasPowerUp = false;
 
 
     // Start is called before the first frame update
@@ -56,6 +60,14 @@ public class PlayerController : MonoBehaviour
         {
             onGround = true;
         }
+        if (hasPowerUp && collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Player has collider withh" + collision.gameObject + "with powerup set to:" + hasPowerUp);
+            Rigidbody rbEnemy  = collision.gameObject.GetComponent<Rigidbody>();
+            Vector3 awayDir = collision.gameObject.transform.position = transform.position;
+
+            rbEnemy.AddForce(awayDir * powerUpSpeed, ForceMode.Impulse);
+        }
         else if(collision.gameObject.CompareTag("Obstacles"))
         {
             Debug.Log("Game Over!");
@@ -64,6 +76,24 @@ public class PlayerController : MonoBehaviour
             asPlayer.PlayOneShot(crashSound, 5.0f);
         }
         
+    }
+
+    IEnumerator PowerUpCountdown()
+    {
+        yield return new WaitForSeconds(6);
+        hasPowerUp = false;
+        powerUpInd.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("PowerUp"))
+        {
+            hasPowerUp = true;
+            Destroy(other.gameObject);
+            StartCoroutine(PowerUpCountdown());
+            powerUpInd.SetActive(true);
+        }
     }
 
 
@@ -81,11 +111,14 @@ public class PlayerController : MonoBehaviour
             asPlayer.PlayOneShot(jumpSound, 3.0f);
 
         }
+        
         if (playerCtrl.gameOver == false)
         
 
 
+  
 
+            
 
 
 
