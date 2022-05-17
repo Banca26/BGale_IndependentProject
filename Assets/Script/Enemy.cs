@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Enemy : MonoBehaviour
 {
     Rigidbody enemyRB;
@@ -19,4 +20,6 @@ public class Enemy : MonoBehaviour
     {
         enemyRB.AddForce(player.transform.position - transform.position); 
     }
+
+    
 }

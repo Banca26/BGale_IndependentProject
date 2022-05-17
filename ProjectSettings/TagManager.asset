@@ -9,6 +9,7 @@ TagManager:
   - doorPrefab
   - PowerUp
   - Enemy
+  - Hazard
   layers:
   - Default
   - TransparentFX

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
     public float verticalInput;
 
     bool hasPowerUp = false;
+    
 
 
     // Start is called before the first frame update
@@ -67,6 +69,7 @@ public class PlayerController : MonoBehaviour
             Vector3 awayDir = collision.gameObject.transform.position = transform.position;
 
             rbEnemy.AddForce(awayDir * powerUpSpeed, ForceMode.Impulse);
+            SceneManager.LoadScene("Game Scene");
         }
         else if(collision.gameObject.CompareTag("Obstacles"))
         {
@@ -74,6 +77,8 @@ public class PlayerController : MonoBehaviour
             gameOver = true;
             smokeSystem.Play();
             asPlayer.PlayOneShot(crashSound, 5.0f);
+            SceneManager.LoadScene("Game Scene");
+            
         }
         
     }
@@ -113,12 +118,12 @@ public class PlayerController : MonoBehaviour
         }
         
         if (playerCtrl.gameOver == false)
-        
 
 
-  
 
-            
+
+
+
 
 
 

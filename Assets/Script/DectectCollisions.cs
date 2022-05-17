@@ -8,5 +8,6 @@ public class DectectCollisions : MonoBehaviour
     {
         Destroy(other.gameObject);
         Debug.Log("Game Over");
+        
     }
 }
